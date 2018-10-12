@@ -301,6 +301,10 @@ export class SelectorWidget extends React.Component<WidgetProps, WidgetState> {
  */
 export function SelectorWidgetInit(target: HTMLInputElement) {
 
+    if (!target.ownerDocument) {
+        throw "You doomed.";
+    }
+
     // Find a default value
     const defaults: (string | ResultItem)[] = [];
     const stringValue = target.value.trim();
