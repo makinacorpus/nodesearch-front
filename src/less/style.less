@@ -1,0 +1,236 @@
+
+@nodesearch-dialog-background: white;
+@nodesearch-dialog-shadow: 0 0 5px black;
+@nodesearch-dialog-thumbnail-width: 33%;
+@nodesearch-dialog-thumbnail-height: 3em;
+@nodesearch-dialog-thumbnail-border-color: #ccc;
+@nodesearch-dialog-active-border-color: red;
+@nodesearch-dialog-width: 800px;
+@nodesearch-dialog-margin-top: 50px;
+@nodesearch-dialog-z-index: 2000;
+
+@nodesearch-item-margin: 5px;
+
+.screen-reader-only() {
+  // This is actually from Bootstrap.
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.resize-to-screen {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  transform: none;
+  min-height: 100vh;
+}
+
+.node-selector-dialog {
+
+  // Few fixes for Drupal 8's seven theme.
+  * {
+    box-sizing: border-box;
+  }
+  input[type=button], button {
+    margin: 0;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: black;
+    opacity: 0.8;
+    z-index: @nodesearch-dialog-z-index;
+  }
+
+  // @todo find a way to position absolute from viewport instead
+  .dialog {
+    position: fixed;
+    width: @nodesearch-dialog-width;
+    top: @nodesearch-dialog-margin-top;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: @nodesearch-dialog-z-index + 1;
+    background: @nodesearch-dialog-background;
+    box-shadow: @nodesearch-dialog-shadow;
+    padding: 14px 20px;
+    border-radius: 5px;
+
+    @media (max-height: 760px) {
+      .resize-to-screen();
+    }
+    @media (max-width: @nodesearch-dialog-width) {
+      .resize-to-screen();
+    }
+
+    h1 {
+      font-size: 1em;
+      font-weight: bold;
+      text-align: center;
+      margin: 0;
+      margin-bottom: 1rem;
+
+      button {
+        float: right;
+        border: none;
+        background: transparent;
+      }
+    }
+
+    h2 {
+      font-size: 1.2em;
+      text-align: center;
+      margin: 0;
+      margin-bottom: 1rem;
+    }
+
+    .pager-nav {
+      text-align: center;
+    }
+  }
+}
+
+.node-selector {
+
+  > * {
+    margin-bottom: 1rem !important;
+  }
+
+  input[type=text] {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .filter {
+    > * {
+      margin-right: 1em;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .results {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+
+    &:not(.sortable) {
+      margin-left: -@nodesearch-item-margin;
+      margin-right: -@nodesearch-item-margin;
+    }
+    margin-bottom: 1em;
+
+    > div {
+      flex: initial;
+      /* margin: 0; */
+      /* padding: 1rem; */
+    }
+  }
+
+  .current {
+    margin-bottom: 1rem;
+    h2 {
+      .screen-reader-only();
+    }
+  }
+
+  .sortable {
+    > * {
+      pointer: grab
+    }
+
+    border: 2px dashed #686868;
+    border-radius: 3px;
+    background: rgba(149, 149, 149, .2);
+    padding: .5rem;
+    width: 100%;
+    min-height: 124px;
+    transition: all .5s ease;
+  }
+
+  .node-selector-item-base() {
+    visibility: visible !important;
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: @nodesearch-item-margin;
+    overflow: hidden;
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .node-selector-item {
+    .node-selector-item-base();
+    border: 1px solid #333;
+    background: #ccc;
+    cursor: pointer;
+
+    .title {
+      font-size: 11px;
+      font-weight: bold;
+      position: absolute;
+      color: white;
+      margin: 0;
+      padding: 3px;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #333;
+      z-index: 1;
+    }
+
+    img {
+      max-width: 100vw; // Cancel possible site CSS
+      min-width: 100%;
+      min-height: 100%;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      height: auto;
+      bottom: 0;
+    }
+
+    &[data-active="true"] {
+      box-shadow: 4px 4px 9px #888;
+      .title {
+        opacity: 1;
+      }
+    }
+  }
+
+  .node-selector-placeholder {
+    .node-selector-item-base();
+
+    // Hide placeholder when switching to full-screen dialog.
+    @media (max-width: @nodesearch-dialog-width) {
+      display: none;
+      visibility: hidden;
+    }
+  }
+
+  .gu-transit .node-selector-item {
+    border: 1px dashed black;
+    opacity: .5;
+    background: white;
+  }
+
+  .footer {
+    input[name=submit] {
+      float: right;
+    }
+  }
+}
