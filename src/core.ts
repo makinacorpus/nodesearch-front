@@ -1,6 +1,53 @@
 
 export const DEFAULT_ENTITY = 'node';
 
+const DEFAULT_TRANSLATIONS = createDefaultLabels();
+
+/**
+ * Create default english labels
+ */
+export function createDefaultLabels(): any  {
+    return {
+        cancel: "Cancel",
+        close: "Close",
+        current: "Selected items",
+        open: "Open dialog",
+        placeholder: "Search",
+        reset: "Reset",
+        select: "Select",
+        title: "Search content",
+    };
+}
+
+/**
+ * Get a translated string from identifier
+ */
+export function translate(key: string, overrides?: any): string {
+    overrides = overrides || {};
+    if (overrides[key]) {
+        return overrides[key];
+    }
+    var translations: any = (window as any).NodeSearch.lang || {};
+    if (translations[key]) {
+        return translations[key];
+    }
+    return (DEFAULT_TRANSLATIONS as any)[key] || "ERROR, PLEASE TRANSLATE ME";
+}
+
+/**
+ * Find all translation labels overrides on element.
+ */
+export function findLabelsOnElement(target: HTMLElement): any {
+    const ret: any = {};
+    for (let key of ["placeholder", "select", "label", "open"]) {
+        const text = target.getAttribute(`data-label-${key}`) || target.getAttribute(key);
+        if (text) {
+            ret[key] = text;
+        }
+    }
+    return ret;
+}
+
 export interface Search {
     page?: number;
     limit?: number;

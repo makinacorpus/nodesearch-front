@@ -1,20 +1,9 @@
 
 import * as React from "react";
+import { translate } from "../core";
 
 export interface DialogProps {
-    /**
-     * Dialog title
-     */
     readonly title: string;
-
-    /**
-     * Close button label (hidden, but displayed by scren readers)
-     */
-    readonly closeLabel?: string;
-
-    /**
-     * Close dialog handler: you must hide dialog when this is clicked.
-     */
     readonly doClose: () => void;
 };
 
@@ -29,7 +18,7 @@ export class Dialog extends React.Component<DialogProps> {
                             {this.props.title}
                             <button name="close" onClick={this.props.doClose}>
                                 &times;
-                                <span className="sr-only">{this.props.closeLabel || "Close"}</span>
+                                <span className="sr-only">{translate("close")}</span>
                             </button>
                         </h1>
                         <div className="content">{this.props.children}</div>

@@ -24,7 +24,6 @@
         "less": "^2.7.2",
         "less-loader": "^4.1.0",
         "mini-css-extract-plugin": "^0.4.1",
-        "react-dragula": "^1.1.17",
         "style-loader": "^0.18.2",
         "ts-loader": "^4.4.2",
         "typescript": "^3",
